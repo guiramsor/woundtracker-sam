@@ -1,0 +1,39 @@
+# Entorno de TinySAM. Ultimo de los destilados.
+#
+# **Este no se instala: se clona.** El repositorio no trae setup.py ni
+# pyproject.toml, asi que no hay nada que pip pueda instalar. Se clona a
+# SURCO_REPOS (por defecto E:\repos_sam) y el adaptador mete esa ruta en
+# sys.path dentro de cargar().
+#
+#   git clone --depth 1 https://github.com/xinghaochen/TinySAM.git E:\repos_sam\TinySAM
+#   conda env create -f entornos/tinysam.yml
+#   conda run -n surco-tinysam pip install --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+#   conda run -n surco-tinysam pip install timm
+#   conda run -n surco-tinysam pip install -e .
+#   conda run -n surco-tinysam pip install --force-reinstall --no-cache-dir pillow
+#
+# Dos checkpoints, y se cargan por caminos distintos:
+#
+# - `vit_t` -> tinysam_42.3.pth, por sam_model_registry, como cualquier fork de
+#   SAM 1;
+# - `w8a8` -> tinysam_w8a8.pth, la version cuantizada a 8 bits, que es el modelo
+#   entero encurtido y se carga con torch.load directamente sobre SamPredictor.
+#
+# cu128 y no cu126: Blackwell, sm_120.
+
+name: surco-tinysam
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - tifffile
+  - scikit-image
+  - scipy
+  - matplotlib
+  - pytest

@@ -1,0 +1,32 @@
+# Entorno de SAM 1. El de referencia historica, y casi el ultimo por eso: su
+# adaptador es el molde del que salen MobileSAM, EdgeSAM, TinySAM y micro-sam,
+# asi que a estas alturas no tiene sorpresas.
+#
+#   conda env create -f entornos/sam1.yml
+#   conda run -n surco-sam1 pip install --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+#   conda run -n surco-sam1 pip install git+https://github.com/facebookresearch/segment-anything.git
+#   conda run -n surco-sam1 pip install -e .
+#   conda run -n surco-sam1 pip install --force-reinstall --no-cache-dir pillow
+#
+# Es el unico de los once cuyo registro declara un checkpoint por defecto de
+# forma explicita: sam_model_registry["default"] es build_sam_vit_h. En los
+# demas, o hay uno solo, o el defecto sale del README o lo elegimos nosotros.
+#
+# cu128 y no cu126: Blackwell, sm_120.
+
+name: surco-sam1
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - tifffile
+  - scikit-image
+  - scipy
+  - matplotlib
+  - pytest

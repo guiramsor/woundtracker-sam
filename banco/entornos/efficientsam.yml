@@ -1,0 +1,30 @@
+# Entorno de EfficientSAM. Primero de los destilados.
+#
+#   conda env create -f entornos/efficientsam.yml
+#   conda run -n surco-efficientsam pip install --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+#   conda run -n surco-efficientsam pip install git+https://github.com/yformer/EfficientSAM.git
+#   conda run -n surco-efficientsam pip install -e .
+#
+# cu128 por lo de siempre: la tarjeta es Blackwell y el build de cu126 llega
+# hasta sm_90, con lo que is_available() dice True y luego falla el kernel.
+#
+# Los pesos van a SURCO_PESOS. En este repositorio vienen dentro del arbol de
+# codigo y uno de ellos comprimido, asi que hay que sacarlos de ahi en vez de
+# bajarlos de una URL suelta.
+
+name: surco-efficientsam
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - tifffile
+  - scikit-image
+  - scipy
+  - matplotlib
+  - pytest

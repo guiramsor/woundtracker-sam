@@ -1,0 +1,52 @@
+# Entorno de SAM 3.
+#
+# **SAM 3 quedo fuera de la lista** por incumplir el criterio del apartado 5.2.
+# Este entorno se conserva porque la exclusion es un resultado del trabajo y
+# tiene que poder reproducirse: `scripts/entornos/verificar_exclusion_sam3.py` cuenta las
+# claves de los dos checkpoints y ensena que ninguno trae el predictor
+# interactivo. No hay adaptador de SAM 3 en `src/surco/adaptadores/`.
+#
+# **Los pesos estan restringidos.** Hay que solicitar acceso en
+# https://huggingface.co/facebook/sam3 y autenticarse con una cuenta propia
+# antes de poder descargarlos. Ese paso lo tiene que dar una persona: no es algo
+# que el pipeline pueda automatizar ni que deba intentarlo.
+#
+#   conda env create -f entornos/sam3.yml
+#   conda run -n surco-sam3 pip install --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+#   conda run -n surco-sam3 pip install git+https://github.com/facebookresearch/sam3.git
+#   conda run -n surco-sam3 pip install einops pycocotools psutil hydra-core omegaconf
+#   conda run -n surco-sam3 pip install -e .
+#   conda run -n surco-sam3 python scripts/entornos/parchear_sam3.py
+#   conda run -n surco-sam3 pip install --force-reinstall --no-cache-dir pillow
+#   # y, tras obtener acceso, autenticarse:
+#   conda run -n surco-sam3 hf auth login
+#
+# einops, pycocotools, psutil, hydra-core y omegaconf son dependencias reales
+# que su instalador no declara: se instalan, no se parchean.
+#
+# **El parche es obligatorio en Windows.** sam3/model/sam3_tracker_utils.py
+# importa una transformada de distancia escrita en Triton. Solo la usa el
+# muestreo de puntos de correccion contra el ground truth, que es entrenamiento
+# y simulacion; la inferencia no pasa por ahi.
+#
+# Dos tandas de checkpoints, y **la version por defecto la declara el codigo**:
+# build_sam3_predictor(version="sam3.1"). Las dos entran, "sam3" y "sam3.1".
+#
+# cu128 y no cu126: Blackwell, sm_120.
+
+name: surco-sam3
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - tifffile
+  - scikit-image
+  - scipy
+  - matplotlib
+  - pytest

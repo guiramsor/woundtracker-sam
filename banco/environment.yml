@@ -1,0 +1,17 @@
+name: surco
+
+channels:
+  - conda-forge
+  - nodefaults   # sin los canales de Anaconda: no hacen falta y exigen aceptar sus terminos
+
+dependencies:
+  - python=3.12
+  - numpy
+  - pandas
+  - tifffile
+  - scikit-image
+  - scipy
+  - matplotlib
+  - pytest
+  - jupyterlab
+  - pip

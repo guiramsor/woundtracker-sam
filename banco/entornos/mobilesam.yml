@@ -1,0 +1,38 @@
+# Entorno de MobileSAM. Uno por modelo, como dice el apartado 11: cada modelo
+# es su propio repositorio con sus propias versiones, y con trece candidatos el
+# choque de versiones es cuestion de tiempo.
+#
+# Lo que no cabe aqui va por pip despues de crear el entorno, porque torch
+# necesita su propio indice y mezclarlo con el resto en un solo bloque `pip:`
+# es fragil:
+#
+#   conda env create -f entornos/mobilesam.yml
+#   conda run -n surco-mobilesam pip install --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+#   conda run -n surco-mobilesam pip install timm git+https://github.com/ChaoningZhang/MobileSAM.git
+#   conda run -n surco-mobilesam pip install -e .
+#
+# El indice es **cu128 y no cu126**: la tarjeta de esta maquina es una RTX 5070,
+# arquitectura Blackwell, capacidad 12.0. El build de cu126 se compila hasta
+# sm_90 y con el `torch.cuda.is_available()` devuelve True pero cualquier kernel
+# falla con "no kernel image is available for execution on the device". Detectar
+# la GPU no es lo mismo que poder usarla.
+#
+# El ultimo paso instala `surco` en editable dentro del entorno del modelo, para
+# que el adaptador comparta config, metricas y contrato con el banco.
+
+name: surco-mobilesam
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - tifffile
+  - scikit-image
+  - scipy
+  - matplotlib
+  - pytest

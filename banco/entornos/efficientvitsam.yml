@@ -1,0 +1,49 @@
+# Entorno de EfficientViT-SAM. Tercero de los destilados.
+#
+#   conda env create -f entornos/efficientvitsam.yml
+#   conda run -n surco-efficientvitsam pip install --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+#   conda run -n surco-efficientvitsam pip install git+https://github.com/mit-han-lab/efficientvit.git
+#   conda run -n surco-efficientvitsam pip install -e .
+#   conda run -n surco-efficientvitsam python scripts/entornos/parchear_efficientvitsam.py
+#   conda run -n surco-efficientvitsam pip install --force-reinstall --no-cache-dir pillow
+#   conda run -n surco-efficientvitsam python scripts/entornos/verificar_efficientvitsam.py
+#
+# Tres cosas que no son obvias:
+#
+# 1. **El parche es obligatorio en Windows.** efficientvit importa Triton en
+#    cabecera para la normalizacion trms2d, que solo usan sus modelos de
+#    difusion; los cinco EfficientViT-SAM usan bn2d. Triton no tiene
+#    distribucion oficial en Windows, asi que sin parche el paquete no importa.
+#    verificar_efficientvitsam.py demuestra despues que el camino de punto no
+#    pasa por ahi.
+#
+# 2. **Este repositorio arrastra un arbol de dependencias enorme** y, entre
+#    otras cosas, **baja numpy a 1.26.4**. Deja un conflicto declarado con
+#    imagecodecs, que pide numpy>=2.1. En la practica no rompe nada de lo que
+#    usamos: numpy, tifffile, skimage, pandas, torch y PIL importan y funcionan.
+#    Queda anotado por si algun dia aparece un sintoma raro en este entorno.
+#
+# 3. Pillow se rompe tras los pip install, como en EdgeSAM. Reinstalarlo va
+#    despues de todos ellos.
+#
+# cu128 y no cu126: Blackwell, sm_120.
+#
+# Los pesos van a SURCO_PESOS. Los nombres reales de los checkpoints se leen del
+# paquete instalado, no de memoria.
+
+name: surco-efficientvitsam
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - tifffile
+  - scikit-image
+  - scipy
+  - matplotlib
+  - pytest

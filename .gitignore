@@ -1,0 +1,36 @@
+# Java
+/target/
+/.classpath
+/.project
+/.settings/
+
+# Microscopia: las series no viajan en el repositorio.
+banco/data/
+
+# Salidas: solo las dos tablas finales. El material intermedio se regenera.
+banco/salidas/*
+!banco/salidas/resumen.csv
+!banco/salidas/contrastes.csv
+!banco/salidas/LEEME_resumen.md
+
+# Pesos de los modelos: fuera del repositorio, en SURCO_PESOS.
+pesos/
+*.pt
+*.pth
+*.safetensors
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# Entornos
+.venv/
+venv/
+.pixi/
+
+# Notebooks
+.ipynb_checkpoints/

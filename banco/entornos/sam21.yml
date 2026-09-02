@@ -1,0 +1,35 @@
+# Entorno de SAM 2.1. Primero de F6 por riesgo: es el favorito para el plugin y
+# uno de los dos modelos que soportan el modo M3, asi que sus sorpresas se
+# quieren pronto y no en la semana cuatro.
+#
+# Igual que en mobilesam.yml, lo de pip va aparte porque torch necesita su
+# propio indice:
+#
+#   conda env create -f entornos/sam21.yml
+#   conda run -n surco-sam21 pip install --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+#   conda run -n surco-sam21 pip install git+https://github.com/facebookresearch/sam2.git
+#   conda run -n surco-sam21 pip install -e .
+#
+# cu128 y no cu126: la tarjeta es Blackwell, capacidad 12.0, y el build de
+# cu126 llega hasta sm_90. Con el, torch.cuda.is_available() dice True y luego
+# falla cualquier kernel.
+#
+# Los checkpoints se bajan a SURCO_PESOS (por defecto E:\pesos_sam), fuera del
+# repositorio.
+
+name: surco-sam21
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - tifffile
+  - scikit-image
+  - scipy
+  - matplotlib
+  - pytest

@@ -1,0 +1,49 @@
+# Entorno de SAM-Med2D. Primero de la familia de radiologia.
+#
+# **Este tampoco se instala: se clona**, como TinySAM. Su repositorio no trae
+# setup.py, ni pyproject.toml, ni siquiera requirements.txt.
+#
+#   git clone --depth 1 https://github.com/OpenGVLab/SAM-Med2D.git E:\repos_sam\SAM-Med2D
+#   conda env create -f entornos/sammed2d.yml
+#   conda run -n surco-sammed2d pip install --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+#   conda run -n surco-sammed2d pip install albumentations opencv-python gdown
+#   conda run -n surco-sammed2d pip install -e .
+#   conda run -n surco-sammed2d pip install --force-reinstall --no-cache-dir pillow
+#
+# albumentations y opencv-python son dependencias reales no declaradas. gdown
+# hace falta porque sus dos checkpoints estan en Google Drive, y no en GitHub ni
+# en Hugging Face como los demas: son enlaces con aviso de antivirus que
+# Invoke-WebRequest no sabe sortear.
+#
+# Sus checkpoints son de entrenamiento, con estado de optimizador dentro, y
+# torch 2.6 puso `weights_only=True` por defecto despues de que su codigo se
+# escribiera, asi que su `torch.load(f)` ya no funciona. El adaptador relaja ese
+# valor solo mientras corre su constructor y lo restaura; no se parchea su
+# fichero, para que su logica de carga corra tal como esta escrita.
+#
+# **Su lado de entrada es 256**, el mas bajo del conjunto con diferencia. Con un
+# surco de unos 17 px de ancho sobre 1024, a 256 queda en unos 4 px. Eso no es
+# un detalle de configuracion: es una hipotesis sobre su resultado, y por eso la
+# columna de lado de entrada del apartado 5.2 existe.
+#
+# El checkpoint se carga con encoder_adapter activado, que es lo que distingue a
+# SAM-Med2D del vit_b de SAM 1 sobre el que esta construido.
+#
+# cu128 y no cu126: Blackwell, sm_120.
+
+name: surco-sammed2d
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - tifffile
+  - scikit-image
+  - scipy
+  - matplotlib
+  - pytest

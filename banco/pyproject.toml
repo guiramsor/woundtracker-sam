@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "surco"
+version = "0.1.0"
+description = "Banco de pruebas para la segmentacion automatica del surco de microirradiacion"
+requires-python = ">=3.12"
+
+# Las dependencias viven en environment.yml, no aqui. El entorno lo resuelve
+# conda de una sola vez; este fichero solo hace instalable el paquete.
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
