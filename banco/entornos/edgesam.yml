@@ -1,0 +1,52 @@
+# Entorno de EdgeSAM. Segundo de los destilados, y el mas trabajoso hasta ahora.
+#
+# La receta completa, en este orden:
+#
+#   conda env create -f entornos/edgesam.yml
+#   conda run -n surco-edgesam pip install --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+#   conda run -n surco-edgesam pip install git+https://github.com/chongzhou96/EdgeSAM.git
+#   conda run -n surco-edgesam pip install loralib yacs timm
+#   conda run -n surco-edgesam pip install -e .
+#   conda run -n surco-edgesam python scripts/entornos/parchear_edgesam.py
+#   conda run -n surco-edgesam pip install --force-reinstall --no-cache-dir pillow
+#   conda run -n surco-edgesam python scripts/entornos/verificar_edgesam.py
+#
+# Cuatro cosas que no son obvias y por las que el orden importa:
+#
+# 1. **El parche es obligatorio.** EdgeSAM importa MMDetection en la cabecera de
+#    su modelo para una cabeza de propuestas que no se usa, y una de esas
+#    importaciones, `projects.EfficientDet`, es una carpeta del repositorio de
+#    MMDetection que no se instala con pip. Sin parche el paquete no se importa
+#    ni instalando mmdet. El parche es un script versionado, no una edicion a
+#    mano, y `verificar_edgesam.py` demuestra despues que el camino de prompt de
+#    punto no pasa por nada de lo parcheado.
+#
+# 2. **loralib, yacs y timm** son dependencias reales del paquete que su
+#    instalador no declara. Esas se instalan, no se parchean: la regla es
+#    parchear solo lo que no se puede instalar.
+#
+# 3. **Pillow se rompe despues de cada `pip install` en este entorno**, con
+#    "DLL load failed while importing _imaging". Es la mezcla de pip y conda
+#    sobre las DLL, no un problema de EdgeSAM. Se arregla reinstalando Pillow
+#    desde PyPI, y por eso ese paso va **el ultimo**, despues de todos los pip.
+#
+# 4. cu128 y no cu126, por lo de siempre: Blackwell, sm_120.
+#
+# Los pesos, edge_sam.pth y edge_sam_3x.pth, van a SURCO_PESOS.
+
+name: surco-edgesam
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - tifffile
+  - scikit-image
+  - scipy
+  - matplotlib
+  - pytest

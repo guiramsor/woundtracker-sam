@@ -1,0 +1,33 @@
+# Entorno de micro-sam. Segundo de F6.
+#
+# A diferencia de los demas, micro-sam se instala **por conda-forge y no por
+# pip**: arrastra dependencias que solo existen ahi (elf, z5py y compania), y
+# sus propios documentos desaconsejan la via de pip.
+#
+# Eso obliga a un orden distinto: primero conda con micro_sam, y despues
+# comprobar que torch trae la arquitectura de la tarjeta. Si el torch que
+# arrastra conda-forge no llega a sm_120, hay que reinstalarlo desde el indice
+# cu128 y volver a comprobar que micro_sam sigue importando.
+#
+#   conda env create -f entornos/microsam.yml
+#   conda run -n surco-microsam python -c "import torch; print(torch.cuda.get_arch_list())"
+#   # si falta sm_120:
+#   conda run -n surco-microsam pip install --force-reinstall --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+#   conda run -n surco-microsam pip install -e .
+#
+# Los checkpoints los descarga micro-sam a su propia cache la primera vez. Los
+# nombres reales de los modelos se leen del paquete instalado, no de memoria.
+
+name: surco-microsam
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - pip
+  - micro_sam
+  - pandas
+  - tifffile
+  - pytest

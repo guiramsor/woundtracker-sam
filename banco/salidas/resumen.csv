@@ -1,0 +1,32 @@
+familia,modelo,checkpoint,lado_entrada_px,n_candidatas,dice_cribado,iou_cribado,ic_bajo,ic_alto,unidades_catastroficas,paso_a_profundidad,mejor_dice_rejilla,configuracion_del_mejor,COSTE_por_imagen_s,COSTE_por_prompt_adicional_s
+linaje,sam21,tiny,1024,3,0.2243,0.1263,0.1747,0.2852,0.0588,si,0.5134,M4 x P4 x S0,0.099,0.0115
+linaje,sam21,base_plus,1024,3,0.2095,0.117,0.1542,0.2843,0.1176,no,,,0.0811,0.0112
+linaje,sam21,large,1024,3,0.2077,0.1159,0.156,0.2739,0.1765,no,,,0.1848,0.0142
+linaje,sam21,small,1024,3,0.1996,0.1109,0.1488,0.2686,0.2353,no,,,0.0594,0.0146
+linaje,sam1,vit_h,1024,3,0.1778,0.0976,0.1407,0.2157,0.2353,no,,,0.5315,0.0085
+linaje,sam1,vit_b,1024,3,0.1744,0.0955,0.1228,0.2376,0.3529,no,,,0.1297,0.0083
+linaje,sam1,vit_l,1024,3,0.1595,0.0867,0.1196,0.2002,0.3529,no,,,0.3015,0.0084
+eficiencia,efficientsam,vitt,1024,3,0.2427,0.1381,0.176,0.323,0.2353,no,,,0.0437,0.0437
+eficiencia,tinysam,vit_t,1024,3,0.2399,0.1363,0.1812,0.3103,0.1765,si,0.4971,M4 x P4 x S1,0.0285,0.0089
+eficiencia,mobilesam,vit_t,1024,3,0.1697,0.0927,0.1193,0.2266,0.3529,no,,,0.0361,0.0084
+eficiencia,efficientvitsam,xl1,1024,3,0.1679,0.0916,0.1216,0.2193,0.3529,no,,,0.0777,0.0092
+eficiencia,edgesam,edge_sam,1024,3,0.1652,0.09,0.1297,0.2013,0.2353,no,,,0.0302,0.0085
+eficiencia,efficientvitsam,l1,512,3,0.1597,0.0868,0.1109,0.2136,0.4118,no,,,0.0451,0.0152
+eficiencia,efficientsam,vits,1024,3,0.1581,0.0858,0.1134,0.2065,0.3529,no,,,0.0812,0.0803
+eficiencia,efficientvitsam,l0,512,3,0.1578,0.0857,0.1097,0.208,0.4118,no,,,0.0324,0.0085
+eficiencia,efficientvitsam,l2,512,3,0.1532,0.083,0.1119,0.1947,0.3529,no,,,0.0515,0.0079
+eficiencia,efficientvitsam,xl0,1024,3,0.1475,0.0796,0.1076,0.1893,0.4118,no,,,0.0493,0.0088
+eficiencia,edgesam,edge_sam_3x,1024,3,0.1065,0.0562,0.065,0.1516,0.5882,no,,,0.0286,0.0086
+microscopia,microsam_lm,vit_b,1024,3,0.3389,0.204,0.2411,0.4416,0.2353,si,0.5517,M4 x P4 x S1,0.1302,0.0083
+microscopia,microsam_lm,vit_t,1024,3,0.2855,0.1665,0.2061,0.3741,0.1176,no,,,0.0281,0.0099
+microscopia,microsam_lm,vit_l,1024,3,0.2811,0.1635,0.2023,0.3715,0.1176,no,,,0.3024,0.0084
+microscopia,microsam_em,vit_l,1024,3,0.2499,0.1428,0.1817,0.3266,0.1765,no,,,0.3046,0.01
+microscopia,microsam_em,vit_t,1024,3,0.2223,0.125,0.1567,0.2984,0.2353,no,,,0.0276,0.0083
+microscopia,microsam_em,vit_b,1024,3,0.1472,0.0794,0.0935,0.2093,0.4706,no,,,0.1283,0.0083
+radiologia,sammed2d,sam_med2d,256,1,0.3284,0.1965,0.2732,0.3833,0.0,si,0.332,M1 x P2 x S0,0.1442,0.0097
+radiologia,medsam2,2411,512,3,0.2712,0.1569,0.1839,0.3764,0.1176,no,,,0.0261,0.012
+radiologia,medsam2,latest,512,3,0.2585,0.1484,0.1855,0.3489,0.1176,no,,,0.0543,0.0129
+radiologia,sammed2d,ft_sam,256,1,0.1721,0.0942,0.1288,0.2176,0.3529,no,,,0.1226,0.0097
+clasico,sato,-,,1,0.1715,0.0938,0.0915,0.2696,0.4118,si,0.4312,M1 x P3 x S1,,
+clasico,otsu_local,-,,1,0.0738,0.0383,0.0282,0.1317,0.7647,si,0.1949,M1 x P3 x una mascara,,
+clasico,watershed,-,,1,0.0637,0.0329,0.0489,0.0801,0.8824,si,0.1299,M1 x P4 x una mascara,,

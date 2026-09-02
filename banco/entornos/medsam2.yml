@@ -1,0 +1,30 @@
+# Entorno de MedSAM2. Segundo de la familia de radiologia.
+#
+#   conda env create -f entornos/medsam2.yml
+#   conda run -n surco-medsam2 pip install --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+#   conda run -n surco-medsam2 pip install git+https://github.com/bowang-lab/MedSAM2.git
+#   conda run -n surco-medsam2 pip install -e .
+#   conda run -n surco-medsam2 pip install --force-reinstall --no-cache-dir pillow
+#
+# Esta construido sobre SAM 2, asi que se espera que traiga su misma mecanica de
+# build y de predictor de imagen. Los nombres reales de checkpoints y la API se
+# leen del paquete instalado, no de memoria.
+#
+# cu128 y no cu126: Blackwell, sm_120.
+
+name: surco-medsam2
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - tifffile
+  - scikit-image
+  - scipy
+  - matplotlib
+  - pytest

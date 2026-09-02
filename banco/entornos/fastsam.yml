@@ -1,0 +1,50 @@
+# Entorno de FastSAM.
+#
+# **FastSAM quedo fuera de la lista.** No paso la comprobacion: segmenta todo
+# sin ver los clics y despues elige entre sus propias mascaras por contencion,
+# asi que sobre el nuestro protocolo no se aplica. Con P2 y P4 devuelve 0 px,
+# porque los clics de fondo caen dentro de la misma mascara que los positivos y
+# la descartan entera en vez de recortarla.
+#
+# Este entorno se conserva porque la exclusion es un resultado del trabajo y
+# tiene que poder reproducirse:
+# `scripts/entornos/verificar_exclusion_fastsam.py`. No hay adaptador de FastSAM.
+#
+#   git clone --depth 1 https://github.com/CASIA-IVA-Lab/FastSAM.git E:\repos_sam\FastSAM
+#   conda env create -f entornos/fastsam.yml
+#   conda run -n surco-fastsam pip install --index-url https://download.pytorch.org/whl/cu128 torch torchvision
+#   conda run -n surco-fastsam pip install ultralytics
+#   conda run -n surco-fastsam pip install -e .
+#   conda run -n surco-fastsam pip install --force-reinstall --no-cache-dir pillow
+#
+# **Su inclusion depende de una comprobacion, no del criterio general.** FastSAM
+# no es un SAM: es un YOLOv8 de segmentacion. La linea es esta:
+#
+# - si se le pueden pasar los cinco clics con sus etiquetas positivas y
+#   negativas y devuelve una mascara que responde a ese prompt, entra, aunque
+#   sea con una sola candidata y S1 degenerado, como SAM-Med2D;
+# - si tiene que segmentar todo y elegir despues por proximidad, entonces el
+#   prompt de nuestro protocolo no se esta aplicando, y sale con un quinto
+#   motivo: mecanismo de prompt no comparable.
+#
+# Lo que hay que mirar en particular es si **respeta los clics negativos**, que
+# es lo que P2 y P4 necesitan.
+#
+# cu128 y no cu126: Blackwell, sm_120.
+
+name: surco-fastsam
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - tifffile
+  - scikit-image
+  - scipy
+  - matplotlib
+  - pytest

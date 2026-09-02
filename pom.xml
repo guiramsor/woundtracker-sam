@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.scijava</groupId>
+        <artifactId>pom-scijava</artifactId>
+        <version>37.0.0</version>
+        <relativePath />
+    </parent>
+
+    <groupId>es.us.universidad</groupId>
+    <artifactId>WoundHealingTracker</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <name>Wound Healing Automated Tracker</name>
+    <description>Plugin para seguimiento automático de cierre de heridas causadas por Microirradiación láser a células usando Deep Learning y Visión Artificial</description>
+    <url>https://github.com/guiramsor/PluginFijiTFG</url>
+    <inceptionYear>2025</inceptionYear>
+
+    <organization>
+        <name>Universidad de Sevilla</name>
+        <url>https://www.us.es</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>CC0</name>
+            <url>https://creativecommons.org/publicdomain/zero/1.0/</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>guiramsor</id>
+            <name>Guillermo Ramon Soria</name>
+            <url>https://github.com/guiramsor</url>
+            <roles>
+                <role>founder</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <contributors>
+        <contributor>
+            <name>Guillermo Ramon Soria</name>
+            <url>https://github.com/guiramsor</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </contributor>
+    </contributors>
+
+    <mailingLists>
+        <mailingList>
+            <name>Image.sc Forum</name>
+            <archive>https://forum.image.sc/tag/imagej</archive>
+        </mailingList>
+    </mailingLists>
+
+    <ciManagement>
+        <system>GitHub Actions</system>
+        <url>https://github.com/guiramsor/PluginFijiTFG/actions</url>
+    </ciManagement>
+
+    <scm>
+        <connection>scm:git:https://github.com/guiramsor/PluginFijiTFG</connection>
+        <developerConnection>scm:git:git@github.com:guiramsor/PluginFijiTFG</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/guiramsor/PluginFijiTFG</url>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/guiramsor/PluginFijiTFG/issues</url>
+    </issueManagement>
+
+    <properties>
+        <package-name>es.us.universidad.woundtracker</package-name>
+        <main-class>es.us.universidad.woundtracker.WoundHealingTracker</main-class>
+        <license.licenseName>cc0</license.licenseName>
+        <license.copyrightOwners>Universidad de Sevilla</license.copyrightOwners>
+
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <imagej.app.directory>${project.build.directory}/ImageJ.app</imagej.app.directory>
+        <delete.other.versions>true</delete.other.versions>
+
+        <enforcer.skip>false</enforcer.skip>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>scijava.public</id>
+            <url>https://maven.scijava.org/content/groups/public</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.imagej</groupId>
+            <artifactId>imagej</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.imagej</groupId>
+            <artifactId>imagej-legacy</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.imagej</groupId>
+            <artifactId>ij</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scijava</groupId>
+            <artifactId>scijava-common</artifactId>
+        </dependency>
+
+        <!-- Puente Java-Python para la vía SAM. Versión fijada (release de Maven Central),
+             emparejada con el paquete 'appose' 0.12.0 de PyPI en el entorno de Python.
+             Se excluye su Groovy 4: el árbol de ImageJ ya trae Groovy 3 (org.codehaus) con
+             las mismas clases groovy.json.* que Appose necesita, y tener los dos duplica
+             clases y rompe el enforcer. En Fiji, además, manda el Groovy del propio Fiji. -->
+        <dependency>
+            <groupId>org.apposed</groupId>
+            <artifactId>appose</artifactId>
+            <version>0.12.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.groovy</groupId>
+                    <artifactId>groovy</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.groovy</groupId>
+                    <artifactId>groovy-json</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            </plugins>
+    </build>
+</project>
